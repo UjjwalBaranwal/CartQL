@@ -2,6 +2,7 @@ services:
   postgres:
     image: postgres:15-alpine
     container_name: postgres_container
+    platform: linux/amd64
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
@@ -13,6 +14,7 @@ services:
   localstack:
     image: localstack/localstack:latest
     container_name: localstack_container
+    platform: linux/amd64
     environment:
       - SERVICES=s3,sqs
       - DEFAULT_REGION=us-east-1
