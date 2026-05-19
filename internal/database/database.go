@@ -1,3 +1,4 @@
+// Package database provides functionality to initialize and manage the database connection using GORM.
 package database
 
 import (
@@ -9,6 +10,7 @@ import (
 	"gorm.io/gorm/logger"
 )
 
+// New initializes a new GORM database connection using the provided configuration.
 func New(cfg *config.DatabaseConfig) (*gorm.DB, error) {
 	dsn := fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=UTC",
@@ -19,7 +21,7 @@ func New(cfg *config.DatabaseConfig) (*gorm.DB, error) {
 		Logger: logger.Default.LogMode(logger.Info),
 	})
 	if err != nil {
-		return nil, fmt.Errorf("Failed to connect to database : %w", err)
+		return nil, fmt.Errorf("failed to connect to database : %w", err)
 	}
 	return db, nil
 }

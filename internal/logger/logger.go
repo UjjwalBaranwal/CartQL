@@ -1,3 +1,4 @@
+// Package logger provides a configured zerolog logger for the application.
 package logger
 
 import (
@@ -8,6 +9,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+// New creates and returns a new zerolog.Logger instance configured for the application.
 func New() zerolog.Logger {
 	zerolog.TimeFieldFormat = time.RFC3339
 	if os.Getenv("GIN_MODE") != "release" {

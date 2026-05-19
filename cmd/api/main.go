@@ -23,7 +23,13 @@ func main() {
 	if err != nil {
 		log.Fatal().Err(err).Msg("failed to get database connection")
 	}
-	defer mainDB.Close()
+
+	defer func() {
+		if err := mainDB.Close(); err != nil {
+			log.Printf("failed to close db: %v", err)
+		}
+	}()
+
 	log.Info().Msg("Database connection established")
 	gin.SetMode(cfg.Server.GinMode)
 	log.Info().Msg("Starting Server")

@@ -1,3 +1,4 @@
+// Package models defines the data models for the application, including User and RefreshToken.
 package models
 
 import (
@@ -6,6 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// User represents a user of the application, including their authentication details and relationships to orders and cart.
 type User struct {
 	ID        uint           `json:"id" gorm:"primaryKey"`
 	Email     string         `json:"email" gorm:"uniqueIndex;not null"`
@@ -25,13 +27,16 @@ type User struct {
 	Cart          Cart           `json:"-"`
 }
 
+// UserRole defines the role of a user in the system.
 type UserRole string
 
+// UserRole defines the role of a user in the system.
 const (
 	UserRoleCustomer UserRole = "customer"
 	UserRoleAdmin    UserRole = "admin"
 )
 
+// RefreshToken represents a JWT refresh token associated with a user, including its expiration time.
 type RefreshToken struct {
 	ID        uint           `json:"id" gorm:"primaryKey"`
 	UserID    uint           `json:"user_id" gorm:"not null"`

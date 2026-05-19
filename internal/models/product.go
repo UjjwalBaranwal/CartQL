@@ -1,3 +1,4 @@
+// Package models defines the data models for the e-commerce application, including Product, Category, and ProductImage.
 package models
 
 import (
@@ -6,6 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// Category represents a product category, which can contain multiple products.
 type Category struct {
 	ID          uint           `json:"id" gorm:"primaryKey"`
 	Name        string         `json:"name" gorm:"not null"`
@@ -19,6 +21,7 @@ type Category struct {
 	Products []Product `json:"-"`
 }
 
+// Product represents an individual product in the catalog, including its details and relationships to categories and images.
 type Product struct {
 	ID          uint           `json:"id" gorm:"primaryKey"`
 	CategoryID  uint           `json:"category_id" gorm:"not null"`
@@ -39,6 +42,7 @@ type Product struct {
 	CartItems  []CartItem     `json:"-"`
 }
 
+// ProductImage represents an image associated with a product, including its URL and whether it is the primary image.
 type ProductImage struct {
 	ID        uint           `json:"id" gorm:"primaryKey"`
 	ProductID uint           `json:"product_id" gorm:"not null"`
