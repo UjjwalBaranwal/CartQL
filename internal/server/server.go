@@ -26,15 +26,16 @@ func New(cfg *config.Config, db *gorm.DB, logger zerolog.Logger) *Server {
 	}
 }
 
+// SetupRoutes sets up the HTTP routes for the server using the Gin framework and returns the configured router.
 func (s *Server) SetupRoutes() *gin.Engine {
 	router := gin.New()
 
-	//Add Middleware
+	// Add Middleware
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 	router.Use(s.corsMiddleware())
 
-	//add routes
+	// add routes
 	router.GET("/health", s.healthCheck)
 
 	return router
