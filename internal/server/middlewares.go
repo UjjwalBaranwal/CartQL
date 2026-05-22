@@ -11,7 +11,7 @@ import (
 
 func (s *Server) authMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// Autherization: Bearer JWT
+		// Authorization: Bearer JWT
 		authHeader := c.GetHeader("Authorization")
 		if authHeader == "" {
 			utils.UnauthorizedResponse(c, "Authorization header required")

@@ -29,7 +29,7 @@ func NewAuthService(db *gorm.DB, config *config.Config) *AuthService {
 
 // Register service register a user and create a his cart
 func (s *AuthService) Register(req *dto.RegisterRequest) (*dto.AuthResponse, error) {
-	//check if user exists
+	// check if user exists
 	var existingUser models.User
 	err := s.db.Where("email = ?", req.Email).First(existingUser).Error
 	if err == nil {
@@ -43,7 +43,7 @@ func (s *AuthService) Register(req *dto.RegisterRequest) (*dto.AuthResponse, err
 	if err != nil {
 		return nil, err
 	}
-	//create user
+	// create user
 	user := models.User{
 		Email:     req.Email,
 		Password:  hashedPassword,
@@ -55,7 +55,7 @@ func (s *AuthService) Register(req *dto.RegisterRequest) (*dto.AuthResponse, err
 	if err := s.db.Create(&user).Error; err != nil {
 		return nil, err
 	}
-	//create a cart
+	// create a cart
 	cart := models.Cart{
 		UserID: user.ID,
 	}

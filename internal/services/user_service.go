@@ -7,16 +7,19 @@ import (
 	"gorm.io/gorm"
 )
 
+// UserService is the structure of the user service
 type UserService struct {
 	db *gorm.DB
 }
 
+// NewUserService creates a new instance of UserService
 func NewUserService(db *gorm.DB) *UserService {
 	return &UserService{
 		db: db,
 	}
 }
 
+// GetProfile returns the profile of the user
 func (s *UserService) GetProfile(userID uint) (*dto.UserResponse, error) {
 	var user models.User
 	if err := s.db.First(&user, userID).Error; err != nil {
@@ -33,6 +36,7 @@ func (s *UserService) GetProfile(userID uint) (*dto.UserResponse, error) {
 	}, nil
 }
 
+// UpdateProfile updates the profile of the user
 func (s *UserService) UpdateProfile(userID uint, req *dto.UpdateProfileRequest) (*dto.UserResponse, error) {
 	var user models.User
 	if err := s.db.First(&user, userID).Error; err != nil {
