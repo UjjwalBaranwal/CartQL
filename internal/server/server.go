@@ -14,11 +14,11 @@ import (
 type Server struct {
 	config *config.Config
 	db     *gorm.DB
-	logger zerolog.Logger
+	logger *zerolog.Logger
 }
 
 // New creates and returns a new Server instance initialized with the provided configuration, database connection, and logger.
-func New(cfg *config.Config, db *gorm.DB, logger zerolog.Logger) *Server {
+func New(cfg *config.Config, db *gorm.DB, logger *zerolog.Logger) *Server {
 	return &Server{
 		config: cfg,
 		db:     db,
@@ -38,6 +38,16 @@ func (s *Server) SetupRoutes() *gin.Engine {
 	// add routes
 	router.GET("/health", s.healthCheck)
 
+	api := router.Group("/api/v1")
+	{
+		auth := api.Group("/auth")
+		{
+			auth.POST("/register", s.register)
+			auth.POST("/login", s.login)
+			auth.POST("/refresh", s.refreshToken)
+			auth.POST("/logout", s.logout)
+		}
+	}
 	return router
 }
 
