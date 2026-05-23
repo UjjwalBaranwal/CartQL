@@ -15,6 +15,7 @@ import (
 	"github.com/UjjwalBaranwal/CartQL/internal/database"
 	"github.com/UjjwalBaranwal/CartQL/internal/logger"
 	"github.com/UjjwalBaranwal/CartQL/internal/server"
+	"github.com/UjjwalBaranwal/CartQL/internal/services"
 	"github.com/gin-gonic/gin"
 )
 
@@ -42,8 +43,10 @@ func main() {
 
 	log.Info().Msg("Database connection established")
 	gin.SetMode(cfg.Server.GinMode)
-
-	srv := server.New(cfg, db, &log)
+	authService := services.NewAuthService(db, cfg)
+	productService := services.NewProductService(db)
+	userService := services.NewUserService(db)
+	srv := server.New(cfg, db, &log, authService, productService, userService)
 	router := srv.SetupRoutes()
 	httpServer := &http.Server{
 		Addr:         fmt.Sprintf(":%s", cfg.Server.Port),
