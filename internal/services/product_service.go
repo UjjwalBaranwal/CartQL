@@ -88,6 +88,18 @@ func (s *ProductService) DeleteCategory(id uint) error {
 	return s.db.Delete(&models.Category{}, id).Error
 }
 
+func (s *ProductService) AddProductImage(productID uint, url, altText string) error {
+	var count int64
+	s.db.Model(&models.ProductImage{}).Where("product_id = ?", productID).Count(&count)
+	image := models.ProductImage{
+		ProductID: productID,
+		URL:       url,
+		AltText:   altText,
+		IsPrimary: count == 0, // Set as primary if it's the first image
+	}
+	return s.db.Create(&image).Error
+}
+
 // CreateProduct creates a new product in the database based on the provided product creation request, and returns the created product as a response.
 func (s *ProductService) CreateProduct(req *dto.CreateProductRequest) (*dto.ProductResponse, error) {
 	product := models.Product{

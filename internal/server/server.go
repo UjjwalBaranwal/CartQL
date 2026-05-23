@@ -19,6 +19,7 @@ type Server struct {
 	authService    *services.AuthService
 	productService *services.ProductService
 	userService    *services.UserService
+	uploadService  *services.UploadService
 }
 
 // New creates and returns a new Server instance initialized with the provided configuration, database connection, and logger.
@@ -28,7 +29,8 @@ func New(
 	logger *zerolog.Logger,
 	authService *services.AuthService,
 	productService *services.ProductService,
-	userService *services.UserService) *Server {
+	userService *services.UserService,
+	uploadService *services.UploadService) *Server {
 	return &Server{
 		config:         cfg,
 		db:             db,
@@ -36,6 +38,7 @@ func New(
 		authService:    authService,
 		productService: productService,
 		userService:    userService,
+		uploadService:  uploadService,
 	}
 }
 
@@ -50,7 +53,7 @@ func (s *Server) SetupRoutes() *gin.Engine {
 
 	// add routes
 	router.GET("/health", s.healthCheck)
-
+	router.Static("/uploads", "./uploads")
 	api := router.Group("/api/v1")
 	{
 		auth := api.Group("/auth")
@@ -86,6 +89,7 @@ func (s *Server) SetupRoutes() *gin.Engine {
 				productRoutes.POST("/", s.adminMiddleware(), s.createProduct)
 				productRoutes.PUT("/:id", s.adminMiddleware(), s.updateProduct)
 				productRoutes.DELETE("/:id", s.adminMiddleware(), s.deleteProduct)
+				productRoutes.POST("/:id/images", s.adminMiddleware(), s.uploadProductImage)
 			}
 		}
 		// public routes

@@ -11,7 +11,7 @@ type LocalUploadProvider struct {
 	basePath string
 }
 
-func NewLocalProvider(basePath string) *LocalUploadProvider {
+func NewLocalUploadProvider(basePath string) *LocalUploadProvider {
 	return &LocalUploadProvider{
 		basePath: basePath,
 	}

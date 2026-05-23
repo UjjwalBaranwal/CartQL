@@ -14,6 +14,7 @@ import (
 	"github.com/UjjwalBaranwal/CartQL/internal/config"
 	"github.com/UjjwalBaranwal/CartQL/internal/database"
 	"github.com/UjjwalBaranwal/CartQL/internal/logger"
+	"github.com/UjjwalBaranwal/CartQL/internal/providers"
 	"github.com/UjjwalBaranwal/CartQL/internal/server"
 	"github.com/UjjwalBaranwal/CartQL/internal/services"
 	"github.com/gin-gonic/gin"
@@ -46,7 +47,9 @@ func main() {
 	authService := services.NewAuthService(db, cfg)
 	productService := services.NewProductService(db)
 	userService := services.NewUserService(db)
-	srv := server.New(cfg, db, &log, authService, productService, userService)
+	uploadProvider := providers.NewLocalUploadProvider(cfg.Upload.Path)
+	uploadService := services.NewUploadService(uploadProvider)
+	srv := server.New(cfg, db, &log, authService, productService, userService, uploadService)
 	router := srv.SetupRoutes()
 	httpServer := &http.Server{
 		Addr:         fmt.Sprintf(":%s", cfg.Server.Port),
