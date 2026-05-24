@@ -113,6 +113,7 @@ func (s *ProductService) CreateProduct(req *dto.CreateProductRequest) (*dto.Prod
 	if err := s.db.Create(&product).Error; err != nil {
 		return nil, err
 	}
+
 	return s.GetProduct(product.ID)
 }
 
