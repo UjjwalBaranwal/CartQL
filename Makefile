@@ -34,7 +34,7 @@ migrate-down:
 	migrate -path db/migrations -database "postgresql://postgres:root@localhost:5432/cartql?sslmode=disable" down
 
 docker-up:
-	docker compose -f docker/docker-compose.yml up -d
+	docker compose --env-file .env -f docker/docker-compose.yml up -d
 
 docker-down:
 	docker compose -f docker/docker-compose.yml down

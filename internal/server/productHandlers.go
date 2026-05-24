@@ -4,7 +4,6 @@ import (
 	"strconv"
 
 	"github.com/UjjwalBaranwal/CartQL/internal/dto"
-	"github.com/UjjwalBaranwal/CartQL/internal/providers"
 	"github.com/UjjwalBaranwal/CartQL/internal/utils"
 	"github.com/gin-gonic/gin"
 )
@@ -163,7 +162,6 @@ func (s *Server) uploadProductImage(c *gin.Context) {
 		utils.BadRequestResponse(c, "No file uploaded", err)
 		return
 	}
-	uploadProvider := providers.NewLocalUploadProvider(s.config.Upload.Path)
 	url, err := s.uploadService.UploadProductImage(uint(id), file)
 	if err != nil {
 		utils.InternalServerErrorResponse(c, "Failed to upload image", err)
