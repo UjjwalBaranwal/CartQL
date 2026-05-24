@@ -13,7 +13,9 @@ import (
 
 	"github.com/UjjwalBaranwal/CartQL/internal/config"
 	"github.com/UjjwalBaranwal/CartQL/internal/database"
+	"github.com/UjjwalBaranwal/CartQL/internal/interfaces"
 	"github.com/UjjwalBaranwal/CartQL/internal/logger"
+	"github.com/UjjwalBaranwal/CartQL/internal/providers"
 	"github.com/UjjwalBaranwal/CartQL/internal/server"
 	"github.com/UjjwalBaranwal/CartQL/internal/services"
 	"github.com/gin-gonic/gin"
@@ -46,7 +48,15 @@ func main() {
 	authService := services.NewAuthService(db, cfg)
 	productService := services.NewProductService(db)
 	userService := services.NewUserService(db)
-	srv := server.New(cfg, db, &log, authService, productService, userService)
+	var uploadProvider interfaces.UploadProvider
+	if cfg.Upload.UploadProvider == "s3"{
+		uploadProvider = providers.NewS3Provider(cfg)
+	}else{
+		uploadProvider = providers.NewLocalUploadProvider(cfg.Upload.Path)
+	}
+
+	uploadService := services.NewUploadService(uploadProvider)
+	srv := server.New(cfg, db, &log, authService, productService, userService, uploadService)
 	router := srv.SetupRoutes()
 	httpServer := &http.Server{
 		Addr:         fmt.Sprintf(":%s", cfg.Server.Port),
