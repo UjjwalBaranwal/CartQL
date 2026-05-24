@@ -45,18 +45,30 @@ func main() {
 
 	log.Info().Msg("Database connection established")
 	gin.SetMode(cfg.Server.GinMode)
+
 	authService := services.NewAuthService(db, cfg)
 	productService := services.NewProductService(db)
 	userService := services.NewUserService(db)
+	cartService := services.NewCartService(db)
+
 	var uploadProvider interfaces.UploadProvider
-	if cfg.Upload.UploadProvider == "s3"{
+	if cfg.Upload.UploadProvider == "s3" {
 		uploadProvider = providers.NewS3Provider(cfg)
-	}else{
+	} else {
 		uploadProvider = providers.NewLocalUploadProvider(cfg.Upload.Path)
 	}
 
 	uploadService := services.NewUploadService(uploadProvider)
-	srv := server.New(cfg, db, &log, authService, productService, userService, uploadService)
+	srv := server.New(
+		cfg,
+		db,
+		&log,
+		authService,
+		productService,
+		userService,
+		uploadService,
+		cartService)
+
 	router := srv.SetupRoutes()
 	httpServer := &http.Server{
 		Addr:         fmt.Sprintf(":%s", cfg.Server.Port),
