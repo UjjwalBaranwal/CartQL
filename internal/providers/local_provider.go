@@ -28,8 +28,6 @@ func (p *LocalUploadProvider) UploadFile(file *multipart.FileHeader, path string
 	if err != nil {
 		return "", err
 	}
-	defer src.Close()
-
 	// create destination
 	dst, err := os.Create(fullPath)
 	if err != nil {
