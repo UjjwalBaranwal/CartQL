@@ -106,6 +106,14 @@ func (s *Server) SetupRoutes() *gin.Engine {
 				cartRoutes.PUT("/items/:id", s.updateCartItem)
 				cartRoutes.DELETE("/items/:id", s.removeFromCart)
 			}
+			// Order routes
+			orders := protected.Group("/orders")
+			{
+				orderRoutes := orders
+				orderRoutes.POST("/", s.createOrder)
+				orderRoutes.GET("/", s.getOrders)
+				orderRoutes.GET("/:id", s.getOrder)
+			}
 		}
 		// public routes
 		api.GET("/categories", s.getCategories)
