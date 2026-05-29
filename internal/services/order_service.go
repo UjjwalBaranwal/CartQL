@@ -176,7 +176,7 @@ func (s *OrderService) convertToOrderResponse(order *models.Order) dto.OrderResp
 			},
 			Quantity: item.Quantity,
 			Price:    item.Price,
-		})
+		}
 	}
 
 	return dto.OrderResponse{
