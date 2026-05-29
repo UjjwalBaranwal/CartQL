@@ -77,7 +77,7 @@ func (s *OrderService) CreateOrder(userID uint) (*dto.OrderResponse, error) {
 		}
 
 		orderResponse = response
-		return nil // Transaction successfull
+		return nil // Transaction successful
 	})
 	if err != nil {
 		return nil, err

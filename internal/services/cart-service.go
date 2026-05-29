@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-// Cart Service is a struct for the cart service
+// CartService is a struct for the cart service
 type CartService struct {
 	db *gorm.DB
 }
@@ -21,9 +21,9 @@ func NewCartService(db *gorm.DB) *CartService {
 }
 
 // GetCart by user Id
-func (s *CartService) GetCart(userId uint) (*dto.CartResponse, error) {
+func (s *CartService) GetCart(userID uint) (*dto.CartResponse, error) {
 	var cart models.Cart
-	err := s.db.Preload("CartItems.Product.Category").Where("user_id = ?", userId).First(&cart).Error
+	err := s.db.Preload("CartItems.Product.Category").Where("user_id = ?", userID).First(&cart).Error
 	if err != nil {
 		return nil, err
 	}
