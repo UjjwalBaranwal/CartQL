@@ -11,6 +11,8 @@ import (
 	"syscall"
 	"time"
 
+	_ "github.com/UjjwalBaranwal/CartQL/docs"
+
 	"github.com/UjjwalBaranwal/CartQL/internal/config"
 	"github.com/UjjwalBaranwal/CartQL/internal/database"
 	"github.com/UjjwalBaranwal/CartQL/internal/interfaces"
@@ -21,6 +23,26 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @title CartQL API
+// @version 1.0
+// @description A modern e-commerce API built with Go, Gin, and GORM
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name   Ujjwal Baranwal
+// @contact.url    https://www.linkedin.com/in/ujjwal-baranwal3294/
+// @contact.email  no-email@no-email
+
+// @license.name  Apache 2.0
+// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host localhost:8080
+// @BasePath /api/
+// @schemas http https
+
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description Type "Bearer" followed by a space and JWT token.
 func main() {
 	// fmt.Println("Hello, World!")
 	log := logger.New()
