@@ -1,4 +1,4 @@
-// server package , this is cart handler
+// Package server , this is cart handler
 package server
 
 import (
@@ -10,8 +10,8 @@ import (
 )
 
 func (s *Server) getCart(c *gin.Context) {
-	userId := c.GetUint("user_id")
-	cart, err := s.cartService.GetCart(userId)
+	userID := c.GetUint("user_id")
+	cart, err := s.cartService.GetCart(userID)
 	if err != nil {
 		utils.NotFoundResponse(c, "Cart not found")
 		return
@@ -20,13 +20,13 @@ func (s *Server) getCart(c *gin.Context) {
 }
 
 func (s *Server) addToCart(c *gin.Context) {
-	userId := c.GetUint("user_id")
+	userID := c.GetUint("user_id")
 	var req dto.AddToCartRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		utils.BadRequestResponse(c, "Invalid request data", err)
 		return
 	}
-	cart, err := s.cartService.AddToCart(userId, &req)
+	cart, err := s.cartService.AddToCart(userID, &req)
 	if err != nil {
 		utils.BadRequestResponse(c, "Failed to add item to cart", err)
 		return
